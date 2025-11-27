@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:netflix_api/widgets/carousel_button.dart.dart';
+import 'package:netflix_api/widgets/homeScreen/carousel_button.dart.dart';
 
 class MovieCarousel extends StatelessWidget {
   final List<String> posters;
@@ -55,7 +55,7 @@ class MovieCarousel extends StatelessWidget {
               height: 35,
             ),
           ),
-          Positioned(bottom: 20, left: 50, child: CarouselButton()),
+          Positioned(bottom: 10, left: 50, child: CarouselButton()),
         ],
       ),
     );

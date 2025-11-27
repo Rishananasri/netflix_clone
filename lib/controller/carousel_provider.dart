@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_api/api/api_service.dart';
-import '../API/api_constants.dart';
+import 'package:netflix_api/API/api_constants.dart';
+import 'package:netflix_api/API/api_service.dart';
 
 class MovieProvider extends ChangeNotifier {
   final TmdbService _service = TmdbService();
@@ -12,11 +12,11 @@ class MovieProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
 
-    final result = await _service.fetchMovies(ApiConstants.popularMovies);
+    final movies = await _service.fetchMovies(ApiConstants.popularMovies);
 
-    posters = result
-        .map((movie) => "${ApiConstants.imageBase}${movie['poster_path']}")
-        .toList();
+    posters = movies.map((movie) {
+      return "https://image.tmdb.org/t/p/w500${movie['poster_path']}";
+    }).toList();
 
     isLoading = false;
     notifyListeners();

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_api/model/gamedetail_model.dart';
-
 import '../API/game_api.dart';
+import '../model/gamedetail_model.dart';
 
 class GameDetailScreen extends StatelessWidget {
   final int gameId;
 
-  const GameDetailScreen({required this.gameId});
+  const GameDetailScreen({required this.gameId, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +18,7 @@ class GameDetailScreen extends StatelessWidget {
             body: Center(child: CircularProgressIndicator(color: Colors.red)),
           );
         }
+
         final game = snapshot.data!;
         return Scaffold(
           backgroundColor: Colors.black,
@@ -37,12 +37,14 @@ class GameDetailScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      game.name,
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                    Expanded(
+                      child: Text(
+                        game.name,
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     Container(
@@ -62,7 +64,10 @@ class GameDetailScreen extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 10),
-                Text(game.description, style: TextStyle(color: Colors.white70)),
+                Text(
+                  game.description,
+                  style: TextStyle(color: Colors.white70),
+                ),
               ],
             ),
           ),

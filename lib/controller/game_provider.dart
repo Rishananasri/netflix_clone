@@ -1,47 +1,46 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_api/API/game_api.dart';
-import 'package:netflix_api/model/gamedetail_model.dart';
+import '../API/game_api.dart';
+import '../model/gamedetail_model.dart';
 
 class GameProvider extends ChangeNotifier {
   final DioService _dioService = DioService();
 
   List<GameDetailModel> games = [];
-  GameDetailModel? gameDetails;
-  List<GameDetailModel> suggestedGames = [];
-
   bool isLoading = false;
-  bool isDetailLoading = false;
-  bool isSuggestedLoading = false;
 
   /// ---------------------- LOAD ALL GAMES ----------------------
-  Future<void> loadGames() async {
+  Future<void> loadGames({int totalPages = 5, int pageSize = 40}) async {
+    isLoading = true;
+    notifyListeners();
+
     try {
-      isLoading = true;
-      notifyListeners();
+      List<GameDetailModel> allGames = [];
 
-      games = await _dioService.fetchGames();
+      // Fetch multiple pages to get more games
+      for (int page = 1; page <= totalPages; page++) {
+        final pageGames = await _dioService.fetchGames(page: page, pageSize: pageSize);
+        allGames.addAll(pageGames);
+      }
 
-      isLoading = false;
-      notifyListeners();
+      games = allGames;
     } catch (e) {
-      isLoading = false;
-      notifyListeners();
+      print("Error fetching games: $e");
     }
+
+    isLoading = false;
+    notifyListeners();
   }
 
-  /// ---------------------- LOAD GAME DETAILS ----------------------
-  Future<void> loadGameDetails(int id) async {
-    try {
-      isDetailLoading = true;
-      notifyListeners();
-
-      gameDetails = await _dioService.fetchGameDetails(id);
-
-      isDetailLoading = false;
-      notifyListeners();
-    } catch (e) {
-      isDetailLoading = false;
-      notifyListeners();
+  /// ---------------------- GET GAMES BY CATEGORY ----------------------
+  Map<String, List<GameDetailModel>> get gamesByCategory {
+    Map<String, List<GameDetailModel>> map = {};
+    for (var game in games) {
+      final category = game.category.isNotEmpty ? game.category : "Unknown";
+      if (!map.containsKey(category)) {
+        map[category] = [];
+      }
+      map[category]!.add(game);
     }
+    return map;
   }
 }

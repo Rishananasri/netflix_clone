@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_api/controller/carousel_provider.dart';
 import 'package:netflix_api/controller/game_provider.dart';
+import 'package:netflix_api/controller/movie_provider.dart';
 import 'package:netflix_api/controller/navbar_provider.dart';
 import 'package:netflix_api/widgets/bottomnavbar.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ void main() {
         ChangeNotifierProvider(create: (_) => BottomNavProvider()),
         ChangeNotifierProvider(create: (_) => MovieProvider()..loadMovies()),
         ChangeNotifierProvider(create: (_) => GameProvider()..loadGames()),
+        ChangeNotifierProvider(create: (_)=>MovieRowsProvider()..loadAll())
       ],
       child: MyApp(),
     ),

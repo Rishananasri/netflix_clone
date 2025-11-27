@@ -21,7 +21,9 @@ class GameDetailModel {
       name: json['name'] ?? "",
       description: json['description_raw'] ?? "",
       image: json['background_image'] ?? "",
-      genres: (json['genres'] as List).map((g) => g['name'] as String).toList(),
+      genres: (json['genres'] as List)
+          .map((g) => g['name'] as String)
+          .toList(),
       category: (json["genres"] != null && json["genres"].isNotEmpty)
           ? json["genres"][0]["name"]
           : "Unknown",

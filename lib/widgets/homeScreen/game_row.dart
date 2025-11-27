@@ -1,26 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_api/controller/navbar_provider.dart';
 import 'package:netflix_api/model/gamedetail_model.dart';
 import 'package:netflix_api/widgets/game_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:netflix_api/controller/game_provider.dart';
 
-class HomescreenWidgets extends StatelessWidget {
-  const HomescreenWidgets({super.key});
+class GameRow extends StatelessWidget {
+  const GameRow({super.key, required String title, required List<GameDetailModel> games,});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        SizedBox(height: 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Mobile Games", style: TextStyle(color: Colors.white)),
-            Row(
-              children: [
-                Text("See All", style: TextStyle(color: Colors.white)),
-                Icon(Icons.arrow_forward_ios_outlined, color: Colors.white),
-              ],
+            Padding(
+              padding: EdgeInsets.only(left: 5),
+              child: Text(
+                "Mobile Games",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Consumer<BottomNavProvider>(
+              builder: (context, value, child) => GestureDetector(
+                onTap: () {
+                  value.changeIndex(1);
+                },
+                child: Row(
+                  children: [
+                    Text(
+                      "See All",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Icon(Icons.arrow_forward_ios_outlined, color: Colors.white),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
