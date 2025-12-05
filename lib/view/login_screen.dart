@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_api/controller/login_provider.dart';
-import 'package:netflix_api/widgets/bottomnavbar.dart';
-import 'package:netflix_api/widgets/custom_textfield.dart';
+import 'package:netflix_api/view/widgets/bottomnavbar.dart';
+import 'package:netflix_api/view/widgets/custom_textfield.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -11,8 +11,6 @@ class LoginScreen extends StatelessWidget {
     final passwordcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-  
-
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(

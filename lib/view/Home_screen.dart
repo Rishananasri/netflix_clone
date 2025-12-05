@@ -4,10 +4,10 @@ import 'package:provider/provider.dart';
 import '../controller/movie_provider.dart';
 import '../controller/game_provider.dart';
 import '../controller/search_provider.dart';
-import '../widgets/homeScreen/carousel_slider.dart';
-import '../widgets/homeScreen/filtered_button.dart';
-import '../widgets/homeScreen/game_row.dart';
-import '../widgets/homeScreen/homescreen_widget.dart';
+import 'widgets/homeScreen/carousel_slider.dart';
+import 'widgets/homeScreen/filtered_button.dart';
+import 'widgets/homeScreen/game_row.dart';
+import 'widgets/homeScreen/homescreen_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 class HomeScreen extends StatelessWidget {

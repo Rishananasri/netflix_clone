@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:netflix_api/widgets/homeScreen/carousel_button.dart.dart';
+import 'package:netflix_api/view/widgets/homeScreen/carousel_button.dart.dart';
 
 class MovieCarousel extends StatelessWidget {
   final List<String> posters;

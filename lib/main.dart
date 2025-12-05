@@ -6,7 +6,7 @@ import 'package:netflix_api/controller/movie_provider.dart';
 import 'package:netflix_api/controller/navbar_provider.dart';
 import 'package:netflix_api/controller/search_provider.dart';
 import 'package:netflix_api/controller/textfield_provider.dart';
-import 'package:netflix_api/screens/splash_screen.dart';
+import 'package:netflix_api/view/splash_screen.dart';
 import 'package:provider/provider.dart';
 
 void main() async{

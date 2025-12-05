@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../API/game_api.dart';
-import '../model/gamedetail_model.dart';
+import '../../service/game_api.dart';
+import '../../model/gamedetail_model.dart';
 
 class GameDetailScreen extends StatelessWidget {
   final int gameId;

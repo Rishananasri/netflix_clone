@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_api/controller/login_provider.dart';
-import 'package:netflix_api/screens/login_screen.dart';
+import 'package:netflix_api/view/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatelessWidget {

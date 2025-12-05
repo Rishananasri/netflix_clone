@@ -2,8 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:netflix_api/controller/login_provider.dart';
-import 'package:netflix_api/screens/login_screen.dart';
-import 'package:netflix_api/widgets/bottomnavbar.dart';
+import 'package:netflix_api/view/login_screen.dart';
+import 'package:netflix_api/view/widgets/bottomnavbar.dart';
 import 'package:provider/provider.dart';
 
 class Splashscreen extends StatefulWidget {

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_api/controller/navbar_provider.dart';
-import 'package:netflix_api/screens/Home_screen.dart';
-import 'package:netflix_api/screens/game_screen.dart';
-import 'package:netflix_api/screens/profile_screen.dart';
-import 'package:netflix_api/screens/video_screen.dart';
+import 'package:netflix_api/view/Home_screen.dart';
+import 'package:netflix_api/view/game_screen.dart';
+import 'package:netflix_api/view/profile_screen.dart';
+import 'package:netflix_api/view/video_screen.dart';
 import 'package:provider/provider.dart';
 
 class BottomNav extends StatelessWidget {

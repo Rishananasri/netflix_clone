@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:netflix_api/API/api_constants.dart';
-import 'package:netflix_api/API/api_service.dart';
+import 'package:netflix_api/service/api_constants.dart';
+import 'package:netflix_api/service/api_service.dart';
 
 class MovieProvider extends ChangeNotifier {
   final TmdbService _service = TmdbService();

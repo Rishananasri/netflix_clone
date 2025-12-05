@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_api/model/movie_model.dart';
-import 'package:netflix_api/widgets/movie_detail.dart';
+import 'package:netflix_api/view/widgets/movie_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:netflix_api/controller/movie_provider.dart';

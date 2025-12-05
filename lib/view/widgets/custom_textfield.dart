@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../controller/textfield_provider.dart';
+import '../../controller/textfield_provider.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -33,12 +33,13 @@ class CustomTextField extends StatelessWidget {
           provider.setFocus(id, value);
         },
         child: TextField(
+          style: TextStyle(color: Colors.white),
           controller: controller,
           decoration: InputDecoration(
             border: InputBorder.none,
             hintText: hint,
             hintStyle: TextStyle(
-              color: Colors.white,
+              color: Colors.grey,
               fontSize: isFocused ? 12 : 14,
               height: 3,
             ),

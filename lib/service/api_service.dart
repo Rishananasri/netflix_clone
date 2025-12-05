@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:netflix_api/API/api_constants.dart';
+import 'package:netflix_api/service/api_constants.dart';
 
 class TmdbService {
   final Dio _dio = Dio();

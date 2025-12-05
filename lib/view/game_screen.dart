@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:provider/provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import '../controller/game_provider.dart';
-import '../widgets/game_detail.dart';
+import 'widgets/game_detail.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});

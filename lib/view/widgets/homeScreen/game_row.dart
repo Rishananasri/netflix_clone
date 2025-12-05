@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_api/controller/navbar_provider.dart';
 import 'package:netflix_api/model/gamedetail_model.dart';
-import 'package:netflix_api/widgets/game_detail.dart';
+import 'package:netflix_api/view/widgets/game_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
