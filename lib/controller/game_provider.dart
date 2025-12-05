@@ -8,7 +8,9 @@ class GameProvider extends ChangeNotifier {
   List<GameDetailModel> games = [];
   bool isLoading = false;
 
-  /// ---------------------- LOAD ALL GAMES ----------------------
+  bool isSearching = false;
+  String _searchQuery = "";
+
   Future<void> loadGames({int totalPages = 5, int pageSize = 40}) async {
     isLoading = true;
     notifyListeners();
@@ -16,9 +18,9 @@ class GameProvider extends ChangeNotifier {
     try {
       List<GameDetailModel> allGames = [];
 
-      // Fetch multiple pages to get more games
       for (int page = 1; page <= totalPages; page++) {
-        final pageGames = await _dioService.fetchGames(page: page, pageSize: pageSize);
+        final pageGames =
+            await _dioService.fetchGames(page: page, pageSize: pageSize);
         allGames.addAll(pageGames);
       }
 
@@ -31,10 +33,29 @@ class GameProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// ---------------------- GET GAMES BY CATEGORY ----------------------
+  void toggleSearch() {
+    isSearching = !isSearching;
+    if (!isSearching) {
+      _searchQuery = ""; 
+    }
+    notifyListeners();
+  }
+
+  void setSearchQuery(String query) {
+    _searchQuery = query.toLowerCase();
+    notifyListeners();
+  }
+
+  List<GameDetailModel> get filteredGames {
+    if (_searchQuery.isEmpty) return games;
+    return games
+        .where((game) => game.name.toLowerCase().startsWith(_searchQuery))
+        .toList();
+  }
+
   Map<String, List<GameDetailModel>> get gamesByCategory {
     Map<String, List<GameDetailModel>> map = {};
-    for (var game in games) {
+    for (var game in filteredGames) {
       final category = game.category.isNotEmpty ? game.category : "Unknown";
       if (!map.containsKey(category)) {
         map[category] = [];

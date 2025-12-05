@@ -24,12 +24,8 @@ class MovieRowsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Helper to fetch and convert API response to List<MovieModel>
   Future<List<MovieModel>> fetchMovieList(String endpoint) async {
-    final List data = await _service.fetchMovies(endpoint); // returns List<dynamic>
-    
-    return data
-        .map((json) => MovieModel.fromJson(json))
-        .toList();
+    final List data = await _service.fetchMovies(endpoint); 
+    return data.map((json) => MovieModel.fromJson(json)).toList();
   }
 }

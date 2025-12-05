@@ -4,10 +4,15 @@ import 'package:netflix_api/model/gamedetail_model.dart';
 import 'package:netflix_api/widgets/game_detail.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:netflix_api/controller/game_provider.dart';
 
 class GameRow extends StatelessWidget {
-  const GameRow({super.key, required String title, required List<GameDetailModel> games,});
+  const GameRow({
+    super.key,
+    required String title,
+    required List<GameDetailModel> games,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +107,9 @@ class GameRow extends StatelessWidget {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => GameDetailScreen(gameId: game.id)),
+          MaterialPageRoute(
+            builder: (_) => GameDetailScreen(gameId: game.id),
+          ),
         );
       },
       child: Column(
@@ -116,13 +123,26 @@ class GameRow extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white10,
-                image: DecorationImage(
-                  image: NetworkImage(game.image),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: CachedNetworkImage(
+                  imageUrl: game.image,
                   fit: BoxFit.cover,
+
+                  placeholder: (context, url) => Container(
+                    color: Colors.grey.shade800,
+                  ),
+
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.grey.shade700,
+                    child: Icon(Icons.error, color: Colors.red),
+                  ),
                 ),
               ),
             ),
           ),
+
           SizedBox(
             width: 110,
             child: Text(
@@ -132,6 +152,7 @@ class GameRow extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
             ),
           ),
+
           SizedBox(
             width: 110,
             child: Text(

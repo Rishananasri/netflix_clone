@@ -49,9 +49,6 @@ class HomescreenWidget extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------------
-  // ROW BUILDER
-  // -------------------------------------------------------
   Widget buildRow({
     required String title,
     required double height,
@@ -82,9 +79,6 @@ class HomescreenWidget extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------------
-  // SHIMMER
-  // -------------------------------------------------------
   Widget buildMovieShimmer(double height, double posterWidth) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -110,9 +104,6 @@ class HomescreenWidget extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------------
-  // POSTER ROW
-  // -------------------------------------------------------
   Widget buildPosterRow(
     List<MovieModel> posters,
     double height,
@@ -130,9 +121,6 @@ class HomescreenWidget extends StatelessWidget {
     );
   }
 
-  // -------------------------------------------------------
-  // POSTER ITEM WITH NAVIGATION
-  // -------------------------------------------------------
   Widget buildPoster(
     MovieModel movie,
     double height,

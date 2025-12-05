@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:netflix_api/widgets/game_detail.dart';
 import 'package:provider/provider.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../controller/game_provider.dart';
-import '../widgets/homeScreen/game_row.dart';
+import '../widgets/game_detail.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Example carousel images
+    final TextEditingController _searchController = TextEditingController();
     final List<String> posters = [
       "assets/images/poster/game1.jpg",
       "assets/images/poster/game2.jpg",
@@ -24,18 +24,47 @@ class GameScreen extends StatelessWidget {
     });
 
     return Scaffold(
-      backgroundColor: Colors.grey[900],
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         foregroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
-          "Discover Games",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+        title: Consumer<GameProvider>(
+          builder: (context, provider, _) {
+            return !provider.isSearching
+                ? const Text(
+                    "Games",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                  )
+                : TextField(
+                    controller: _searchController,
+                    autofocus: true,
+                    style: const TextStyle(color: Colors.white),
+                    decoration: const InputDecoration(
+                      hintText: "Search games...",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: InputBorder.none,
+                    ),
+                    onChanged: provider.setSearchQuery,
+                  );
+          },
         ),
-        actions: const [
-          Icon(Icons.search),
-          SizedBox(width: 16),
+        actions: [
+          Consumer<GameProvider>(
+            builder: (context, provider, _) {
+              return IconButton(
+                icon: Icon(provider.isSearching ? Icons.close : Icons.search),
+                onPressed: () {
+                  provider.toggleSearch();
+                  if (!provider.isSearching) {
+                    _searchController.clear();
+                    provider.setSearchQuery('');
+                  }
+                },
+              );
+            },
+          ),
+          const SizedBox(width: 16),
         ],
       ),
       body: Consumer<GameProvider>(
@@ -47,7 +76,6 @@ class GameScreen extends StatelessWidget {
           }
 
           final categories = provider.gamesByCategory;
-
           if (categories.isEmpty) {
             return const Center(
               child: Text(
@@ -57,13 +85,13 @@ class GameScreen extends StatelessWidget {
             );
           }
 
+          final limitedCategories = categories.entries.take(4).toList();
+
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 15),
-
-                // -------- Top Carousel (featured games) --------
                 CarouselSlider(
                   items: posters.map((path) {
                     return ClipRRect(
@@ -78,48 +106,28 @@ class GameScreen extends StatelessWidget {
                   options: CarouselOptions(
                     height: 220,
                     autoPlay: true,
-                    enlargeCenterPage: true,
-                    viewportFraction: 0.85,
+                    viewportFraction: 1,
+                    autoPlayInterval: const Duration(seconds: 30),
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
-                // -------- Categories --------
-                ...categories.entries.map((entry) {
+                ...limitedCategories.map((entry) {
                   if (entry.value.isEmpty) return const SizedBox.shrink();
-
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              entry.key,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                // Optional: navigate to see all games in this category
-                              },
-                              child: const Text(
-                                "See All",
-                                style: TextStyle(
-                                  color: Colors.redAccent,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          entry.key,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -130,7 +138,9 @@ class GameScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             final game = entry.value[index];
                             return Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 8,
+                              ),
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(
@@ -141,17 +151,14 @@ class GameScreen extends StatelessWidget {
                                     ),
                                   );
                                 },
-                                child: Stack(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      height: 180,
-                                      width: 140,
+                                      height: 140,
+                                      width: 120,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
-                                        image: DecorationImage(
-                                          image: NetworkImage(game.image),
-                                          fit: BoxFit.cover,
-                                        ),
                                         boxShadow: const [
                                           BoxShadow(
                                             color: Colors.black45,
@@ -160,27 +167,38 @@ class GameScreen extends StatelessWidget {
                                           ),
                                         ],
                                       ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: CachedNetworkImage(
+                                          imageUrl: game.image.isNotEmpty
+                                              ? game.image
+                                              : "https://via.placeholder.com/120x140.png?text=No+Image",
+                                          fit: BoxFit.cover,
+                                          placeholder: (context, url) =>
+                                              Container(
+                                                color: Colors.grey.shade800,
+                                              ),
+                                          errorWidget: (context, url, error) =>
+                                              Container(
+                                                color: Colors.grey.shade700,
+                                                child: const Icon(
+                                                  Icons.error,
+                                                  color: Colors.red,
+                                                ),
+                                              ),
+                                        ),
+                                      ),
                                     ),
-                                    Positioned(
-                                      bottom: 8,
-                                      left: 8,
-                                      right: 8,
-                                      child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 4, horizontal: 6),
-                                        decoration: BoxDecoration(
-                                          color: Colors.black54,
-                                          borderRadius: BorderRadius.circular(12),
+                                    const SizedBox(height: 6),
+                                    SizedBox(
+                                      width: 120,
+                                      child: Text(
+                                        game.name,
+                                        style: const TextStyle(
+                                          color: Colors.white,
                                         ),
-                                        child: Text(
-                                          game.name,
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 12),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
                                     ),
                                   ],
@@ -193,7 +211,6 @@ class GameScreen extends StatelessWidget {
                     ],
                   );
                 }).toList(),
-
                 const SizedBox(height: 20),
               ],
             ),

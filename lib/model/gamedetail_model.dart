@@ -16,17 +16,26 @@ class GameDetailModel {
   });
 
   factory GameDetailModel.fromJson(Map<String, dynamic> json) {
+    final imageUrl = (json['background_image'] != null && json['background_image'] != "")
+        ? json['background_image']
+        : "https://via.placeholder.com/400x200.png?text=No+Image";
+
+    final genresList = (json['genres'] as List<dynamic>?)
+            ?.map((g) => g['name'] as String)
+            .toList() ??
+        [];
+
+    final category = (genresList.isNotEmpty) ? genresList[0] : "Unknown";
+
     return GameDetailModel(
-      id: json['id'],
-      name: json['name'] ?? "",
+      id: json['id'] ?? 0,
+      name: json['name'] ?? "Unknown Game",
       description: json['description_raw'] ?? "",
-      image: json['background_image'] ?? "",
-      genres: (json['genres'] as List)
-          .map((g) => g['name'] as String)
-          .toList(),
-      category: (json["genres"] != null && json["genres"].isNotEmpty)
-          ? json["genres"][0]["name"]
-          : "Unknown",
+      image: imageUrl,
+      genres: genresList,
+      category: category,
     );
   }
+
+  get title => null;
 }

@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_api/controller/carousel_provider.dart';
 import 'package:netflix_api/controller/game_provider.dart';
+import 'package:netflix_api/controller/login_provider.dart';
 import 'package:netflix_api/controller/movie_provider.dart';
 import 'package:netflix_api/controller/navbar_provider.dart';
-import 'package:netflix_api/widgets/bottomnavbar.dart';
+import 'package:netflix_api/controller/search_provider.dart';
+import 'package:netflix_api/controller/textfield_provider.dart';
+import 'package:netflix_api/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BottomNavProvider()),
         ChangeNotifierProvider(create: (_) => MovieProvider()..loadMovies()),
         ChangeNotifierProvider(create: (_) => GameProvider()..loadGames()),
-        ChangeNotifierProvider(create: (_)=>MovieRowsProvider()..loadAll())
+        ChangeNotifierProvider(create: (_) => MovieRowsProvider()..loadAll()),
+        ChangeNotifierProvider(create: (_) => SearchProvider()),
+        ChangeNotifierProvider(create: (_) => TextFieldProvider()),
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
       ],
       child: MyApp(),
     ),
@@ -25,9 +32,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: BottomNav(), debugShowCheckedModeBanner: false);
+    return MaterialApp(home: Splashscreen(), debugShowCheckedModeBanner: false);
   }
 }
-
-final String rawgKey = "15cf8d04ce9d4bc1b7ace59cb703e3da";
-final String tmdbKey = "393e5591926a7cdd0970afda2757b95d";
